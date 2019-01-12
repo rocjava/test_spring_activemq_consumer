@@ -1,11 +1,9 @@
 package com.penn.springactivemqconsumer.mq;
 
+import com.penn.spring.activemq.comm.po.PersonVo;
 import org.apache.log4j.Logger;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
+import javax.jms.*;
 
 public class ActivemqConsumer implements MessageListener {
 
@@ -13,12 +11,21 @@ public class ActivemqConsumer implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        TextMessage textMsg = (TextMessage) message;
+        ObjectMessage objMsg = (ObjectMessage) message;
+        PersonVo po = null;
         try {
-            logger.info("接收到queue消息：" + textMsg.getText());
+            po = (PersonVo) objMsg.getObject();
+            if(po == null){
+                logger.info("接收到queue消息：null");
+                return;
+            }
+            if(po != null){
+                logger.info("接收到queue消息：" + po.toString());
+            }
 
         } catch (JMSException e) {
             e.printStackTrace();
         }
+
     }
 }

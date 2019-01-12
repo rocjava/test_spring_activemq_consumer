@@ -15,7 +15,7 @@ public class ActivemqTopicSecondConsumer implements MessageListener {
     public void onMessage(Message message) {
         TextMessage textMsg = (TextMessage) message;
         try {
-            logger.info("接收到topic消息：" + textMsg.getText());
+            logger.info("consumer--2--接收到topic消息：" + textMsg.getText());
         } catch (JMSException e) {
             e.printStackTrace();
         }
